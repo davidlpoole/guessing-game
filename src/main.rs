@@ -1,15 +1,16 @@
-use std::io;
 use rand::Rng;
 use std::cmp::Ordering;
+use std::io;
 
 fn main() {
     println!("Guess the number!");
 
-    let secret_number = rand::thread_rng().gen_range(1,101);
+    let secret_number = rand::thread_rng().gen_range(1, 101);
+    let mut guesses = 0;
 
     loop {
         println!("Please input your guess.");
-
+        guesses = guesses + 1;
         let mut guess = String::new();
 
         io::stdin()
@@ -27,9 +28,13 @@ fn main() {
             Ordering::Less => println!("Too small!"),
             Ordering::Greater => println!("Too big!"),
             Ordering::Equal => {
-                println!("You win!");
+                if guesses < 2 {
+                    println!("You won in {} guess!", guesses)
+                } else {
+                    println!("You won in {} guesses!", guesses)
+                }
                 break;
-            },
+            }
         }
     }
 }
